@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<title>购物车</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="css/my.css"/>
+	</head>
+	<body>
+		<!--头部-->
+			<header>
+				<span class="icon-back back"><a href="index.html">返回</a></span>
+				<em>用户中心</em>
+			</header>
+		<div class="container">
+			<div class="div_1">
+				<p><img src="img/user_03.jpg"/>qq<button id="tiuchu">退出</button></p>
+			</div>
+			<div class="div_2">
+				<p>电话号码<span id="dhhm">12345689</span></p>
+			</div>	
+			<div class="div_2">
+				<p>收藏夹<span><span id="scj">0</span><a href="cart.html"><img class="div-img" src="img/user_04.jpg"></a></span></p>
+			</div>
+			<div class="div_2">
+				<p>订单列表<span><span id="ddlb">0</span><a href="dingdan.html"><img class="div-img" src="img/user_04.jpg"></a></span></p>
+			</div>
+				
+		</div>
+		<!--底部-->
+		<footer>
+			<ul>
+				<li class="icon-home"><img src="img/main_28.jpg"<a href="#">商城</a></li>
+				<li class="icon-category"><img src="img/main_29.jpg"/><a href="category.html">服务</a></li>
+				<li class="icon-cart"><img src="img/main_31.jpg"/><a href="cart.html">订单</a></li>
+				<li class="icon-my"><img src="img/main_33.jpg"/><a href="my.html">我的</a></li>
+			</ul>
+		</footer>
+	<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/galaxy.js" type="text/javascript" charset="utf-8"></script>	
+	<script src="js/url.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+	<script type="text/javascript">
+		$(function(){
+			$.ajax({
+				type:"post",
+				url:url+"orderlist",
+				async:true,
+				data:{
+					username:localStorage.getItem("username"),
+					token:localStorage.getItem("token")
+				},
+				success:function(data){
+					console.log(data)
+					$("#scj").text(data.list.length)
+				}
+			})
+			
+			
+			$.ajax({
+				type:"post",
+				url:url+"orderlistGet",
+				async:true,
+				data:{
+					username:localStorage.getItem("username"),
+					tokenid:localStorage.getItem("token")
+				},
+				success:function(data){
+					console.log(data)
+					$("#ddlb").text(data.list.length)
+				}
+			});
+			$.ajax({
+				type:"post",
+				url:url+"userCenter",
+				async:true,
+				data:{
+					username:localStorage.getItem("username"),
+					tokenid:localStorage.getItem("token")
+				},
+				success:function(data){
+					console.log(data)
+					$("#dhhm").text(data.list.usertel)
+				}
+			});
+			
+			$("#tiuchu").on("click",function(){
+				alert("确定退出")
+				localStorage.setItem("username","");
+				localStorage.setItem("token","");
+				location.href="login.html";
+			})
+		})
+	</script>
+</html>

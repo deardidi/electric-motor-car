@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<title>格莱商城</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+	</head>
+	<body>
+		<!--头部-->
+			<header>
+				<div class="icon-logo logo"><img src="img/main_03.jpg"/></a></div>
+				<div class="search">
+				</div>
+				<div class="icon-login login">
+					<a href="cart.html"><img src="img/main_05.jpg"/></a>
+					<img src="img/main_08.jpg"/>
+				</div>
+			</header>
+		<div class="container">
+			<!--banner-->
+			<div class="carousel">
+				<div class="banner-box">
+					<img src="img/n1s.jpg"/>
+					<img src="img/n1s.jpg"/>
+					<img src="img/n1s.jpg"/>
+				</div>
+			</div>
+			<!--导航栏-->
+			<nav>
+				<ul>
+					<li class="icon-brand red"><img src="img/main_17.jpg"/><a id="zcrm" href="#">整车热卖</a></li>
+					<li class="icon-index red"><img src="img/main_19.jpg"/><a id="rmpj" href="#">热卖配件</a></li>
+					<li class="icon-boutique"><img src="img/main_22.jpg"/><a href="#">线下门店</a></li>
+					<li class="icon-special"><img src="img/main_13.jpg"/><a href="#">文化周边</a></li>
+				</ul>
+			</nav>
+			<!--正文-->
+			
+			<main>
+				<div class="products">
+					<div class="hd">
+						<em class="icon-book">整车热卖</em>
+					</div>
+					<img src="img/n1s.jpg"/>
+					<div class="remai">
+						
+						<!--<div class="divimg">
+							<img src="img/0d689e37.jpg"/>
+							<span>N1s动力版</span>
+							<h6>￥7199</h6>
+						</div>
+						<div class="divimg">
+							<img src="img/0d689e37.jpg"/>
+							<span>N1s动力版</span>
+							<h6>￥7199</h6>
+						</div>-->
+					</div>
+					<div class="remai1">
+						<!--<div class="divimg">
+							<img src="img/0d689e37.jpg"/>
+							<span>N1s动力版</span>
+							<h6>￥9</h6>
+						</div>
+						<div class="divimg">
+							<img src="img/0d689e37.jpg"/>
+							<span>N1s动力版</span>
+							<h6>￥9</h6>
+						</div>-->
+					</div>
+					
+				</div>
+			</main>
+		</div>
+		
+		<!--底部-->
+			<footer>
+				<ul>
+					<li class="icon-home">
+						<img src="img/main_28.jpg"><a href="#">商城</a></li>
+					<li class="icon-category"><a href=""><img src="img/main_29.jpg"/>服务</a></li>
+					<li class="icon-cart"><a href="dingdan.html"><img src="img/main_31.jpg"/>订单</a></li>
+					<li class="icon-my"><a href="my.html"><img src="img/main_33.jpg"/>我的</a></li>
+				</ul>
+			</footer>
+		
+		
+			
+	<script src="js/jquery.min.js"></script>
+	<script src="js/galaxy.js"></script>
+	<script src="js/url.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var num=5;
+			var page=1;
+			var goodsType="";
+			$(".icon-index").on("click",function(){
+				$(".remai").hide()
+				$(".remai1").show()
+				$("#zcrm").css("color","#000000")
+				$("#rmpj").css("color","red")
+				$(".icon-book").text("热卖配件")
+			})
+			$(".icon-brand").on("click",function(){
+				$(".remai1").hide()
+				$(".remai").show()
+				$("#zcrm").css("color","red")
+				$("#rmpj").css("color","#000000")
+				$(".icon-book").text("整车热卖")
+			})
+//			$(".red").click(function(){
+//				goodsType=$(this).index()
+//			})
+			
+			$(window).scroll(function(){
+			　　var scrollTop = $(this).scrollTop();
+			　　var scrollHeight = $(document).height();
+			　　var windowHeight = $(this).height();
+			　　if(scrollHeight-scrollTop - windowHeight <= 1){
+					$.ajax({
+							type:"get",
+							url:url+"goodslist",
+							async:true,
+							data:{
+								num:num,
+								page:page,
+								goodsType:goodsType
+							},
+							success:function(data){
+								console.log(data)
+								if(data.errCode==0){
+									var html="";
+									var html1="";
+									for(var i=0;i<data.list.goods1.length;i++){
+										html += '<a href="detail.html?'+data.list.goods1[i]._id+'"><div class="divimg"><img src="'+url+data.list.goods1[i].goodsImg+'"/></div></a>'
+									}
+									$(".remai").append(html)
+									
+									for(var i=0;i<data.list.goods2.length;i++){
+										html1 += '<a href="detail.html?'+data.list.goods2[i]._id+'"><div class="divimg"><img src="'+url+data.list.goods2[i].goodsImg+'"/></div></a>'
+									}
+									$(".remai1").append(html1)
+								}else{
+									alert("没有商品可查")
+		
+								}
+								
+							}
+					})
+				page++
+		　　}
+		});	
+				
+				
+     });
+      	
+      
+      
+	</script>
+	</body>
+</html>
